@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8>
+    <title>My first three.js app</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/three.js"></script>
+    <script>
+        //场景
+        var scene = new THREE.Scene();
+        //相机  PerspectiveCamera（透视摄像机）参数：视野角度，长宽比，远剪切面，近剪切面
+        //物体所在的位置比摄像机的远剪切面远或者所在位置比近剪切面近的时候，该物体超出的部分将不会被渲染到场景中
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        console.log('camera', camera)
+        //渲染器
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        //添加立方体
+        //BoxGeometry（立方体）对象
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        //材质
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //网格
+        var cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        camera.position.z = 5;
+
+        //染”或者“动画循环”的东西。
+        function animate() {
+            //requestAnimationFrame有很多的优点。最重要的一点或许就是当用户切换到其它的标签页时，
+            //它会暂停，因此不会浪费用户宝贵的处理器资源，以及损耗电池的使用寿命。
+            requestAnimationFrame(animate);
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+
+</html>
